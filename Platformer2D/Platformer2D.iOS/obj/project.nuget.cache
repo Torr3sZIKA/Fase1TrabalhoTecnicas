@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "GPjLRbB/PgQ=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\Guilherme\\Desktop\\TécnicasTrabalho\\MonoGame.Samples\\Platformer2D\\Platformer2D.iOS\\Platformer2D.iOS.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1012",
+      "level": "Error",
+      "message": "A versão da plataforma não está presente para uma ou mais estruturas de destino, embora elas tenham uma plataforma especificada: net8.0-ios"
+    }
+  ]
+}
