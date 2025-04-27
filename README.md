@@ -17,4 +17,34 @@ O jogo contem inimigos, níveis e coletáveis como por exemplo, joias.
 
 <h3>Mecânicas básicas de plataforma: correr, saltar e colisões:</h3>
 <b>Correr:</b>
-Função: * * GetInput(...) → lê o teclado, gamepad ou acelerómetro para definir o movement (float entre -1 e 1).
+Função:
++GetInput(...) → lê o teclado/gamepad para ativar isJumping = true
++DoJump(...) → altera velocity.Y se o jogador está a saltar
+
+
+
+if (isJumping)
+{
+    if ((!wasJumping && IsOnGround) || jumpTime > 0.0f)
+    {
+        if (jumpTime == 0.0f)
+            jumpSound.Play();
+
+        jumpTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        sprite.PlayAnimation(jumpAnimation);
+    }
+
+    if (0.0f < jumpTime && jumpTime <= MaxJumpTime)
+    {
+        velocityY = JumpLaunchVelocity * (1.0f - (float)Math.Pow(jumpTime / MaxJumpTime, JumpControlPower));
+    }
+    else
+    {
+        jumpTime = 0.0f;
+    }
+}
+else
+{
+    jumpTime = 0.0f;
+}
+wasJumping = isJumping;
