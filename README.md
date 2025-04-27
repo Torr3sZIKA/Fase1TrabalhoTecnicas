@@ -308,10 +308,24 @@ Estes dois componentes são fundamentais para o funcionamento do motor gráfico 
 
 <h1>🎮 Como jogar?</h1>
 <ul>
-    <li>Seta Esquerda/Direita: Mover personagem </li>
-    <li>Espaço: Saltar</li>
-    <li>ESC: Sair do jogo</li>
+    <li><b>Seta Esquerda/Direita:</b> Mover personagem </li>
+    <li><b>Espaço:</b> Saltar</li>
+    <li><b>ESC:</b> Sair do jogo</li>
 </ul>
+
+<h1>🛠️ Personalização</h1>
+Vale também ressaltar que este projeto é perfeito para quem quer aprender a:
+
+<ul>
+<li>Adicionar novos níveis.</li>
+<li>Criar inimigos simples.</li>
+<li>Expandir o seu sistema de física.</li>
+<li>Melhorar o sistema de animações.</li>  
+</ul>
+
+
+
+
 
 
 
