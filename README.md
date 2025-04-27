@@ -1,7 +1,7 @@
 # Fase1 - Trabalho de Técnicas de Desenvolvimento de Vídeojogos
 🔧 Trabalho realizado por: 
 * Guilherme Torres nº31486
-* Diogo Gomes
+* Diogo Gomes nº31493
 <h3>📦 Repositório original: https://github.com/MonoGame/MonoGame.Samples/tree/3.8.2/Platformer2D</h3>
 
 O jogo "Platformer2D" não é nada mais, nada menos, do que um exemplo oficial da equipa MonoGame para demonstrar como criar um jogo de plataforma 2D usando a framework da mesma! 
