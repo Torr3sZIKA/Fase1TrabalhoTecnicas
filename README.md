@@ -109,29 +109,36 @@ O jogo contem inimigos, níveis e coletáveis como por exemplo, joias.
 </ul>
 
 
-<h3>🌟 Sistema simples de pontuação:</h3>
+<h3>🌟 Sistema de Pontuação no Platformer2D</h3>
 
-No código da classe <code>Gem</code>, a pontuação é atribuída pelo valor da pedra preciosa que o jogador apanha. O valor de cada pedra preciosa é armazenado na propriedade <code>PointValue</code>, que define a quantidade de pontos que o jogador ganha ao apanhar-la.
+<p>A pontuação do jogo está relacionada com o apanhar de <strong>pedras preciosas</strong> pelo jogador. Cada <code>Gem</code> (pedra preciosa) possui um campo:</p>
 
-<pre><code>public readonly int PointValue = 30;</code></pre>
+<pre>
+public readonly int PointValue = 30;
+</pre>
 
-<p>O valor de <code>PointValue</code> é atualmente definido como 30 pontos. Quando a pedra preciosa é apanhada, ela "chama" o método <code>OnCollected()</code>, mas a lógica para adicionar os pontos ao jogador ainda não está implementada dentro da classe <code>Gem</code>.</p>
+<p>
+Este valor (30 pontos) é atribuído sempre que o jogador apanha uma pedra preciosa.
+A lógica de adicionar esta pontuação ao jogador é feita dentro da classe <strong>Level</strong>, através do método privado <code>OnGemCollected</code>.
+</p>
 
-<p>Para implementar a lógica de pontuação, seria necessário atualizar o método <code>OnCollected()</code> para integrar com a classe do jogador ou outra classe responsável pela pontuação. Um exemplo de como poderiamos fazer seria o seguinte:</p>
+<h3>Implementação da Atribuição de Pontos</h3>
 
-<pre><code>
-public void OnCollected(Player collectedBy)
+<pre>
+private void OnGemCollected(Gem gem, Player collectedBy)
 {
-    collectedSound.Play();
-
-    // Adiciona os pontos ao jogador
-    collectedBy.AddPoints(PointValue);
+    score += gem.PointValue;
+    gem.OnCollected(collectedBy);
 }
-</code></pre>
+</pre>
 
-<p>Neste exemplo, o jogador é passado como parâmetro para o método <code>OnCollected()</code>. Dentro do método, chama-se a função <code>AddPoints()</code> no objeto <code>collectedBy</code>, passando o valor da <code>PointValue</code> da gema. A função <code>AddPoints()</code> seria responsável por atualizar a pontuação do jogador.</p>
-
-<p>Portanto, a lógica da pontuação está no valor atribuído à propriedade <code>PointValue</code>, mas a integração com a pontuação do jogador depende da implementação de um sistema de pontuação, que pode ser gerido pela classe <code>Player</code> ou outra classe similar.</p>
+<p>
+Ou seja, quando uma pedra preciosa é apanhada, o método <code>OnGemCollected</code> é "chamado":
+</p>
+<ul>
+  <li>Adiciona os pontos do <code>PointValue</code> da pedra preciosa ao total <code>score</code> do jogador.</li>
+  <li>Chama o método <code>gem.OnCollected(collectedBy)</code> para reproduzir o som de coleta ou realizar outros efeitos.</li>
+</ul>
 
 <h3>🌟 Sistema de níveis</h3>
 
@@ -149,13 +156,13 @@ public void OnCollected(Player collectedBy)
     <td><h3>2. <code>void LoadTiles(Stream fileStream)</code></h3></td>
     <td>
       <p><strong>Função:</strong> Lê os dados de um ficheiro de nível e carrega a estrutura dos tiles.</p>
-      <p><strong>Objetivo:</strong> Verifica o formato correto do ficheiro, valida a posição de início e a saída, além de instanciar as entidades do nível (como gemas, inimigos e plataformas).</p>
+      <p><strong>Objetivo:</strong> Verifica o formato correto do ficheiro, valida a posição de início e a saída, além de instanciar as entidades do nível (como pedras preciosas, inimigos e plataformas).</p>
     </td>
   </tr>
   <tr>
     <td><h3>3. <code>Tile LoadTile(char tileType, int x, int y)</code></h3></td>
     <td>
-      <p><strong>Função:</strong> Carrega um tile com base no tipo de caractere lido do ficheiro (por exemplo, '.' para espaço vazio, 'X' para saída, 'G' para gema).</p>
+      <p><strong>Função:</strong> Carrega um tile com base no tipo de caractere lido do ficheiro (por exemplo, '.' para espaço vazio, 'X' para saída, 'G' para pedra preciosa).</p>
       <p><strong>Objetivo:</strong> Instancia o tile adequado para a posição <code>(x, y)</code> com base no tipo de caractere.</p>
     </td>
   </tr>
@@ -176,15 +183,15 @@ public void OnCollected(Player collectedBy)
   <tr>
     <td><h3>6. <code>void Update(GameTime gameTime, KeyboardState keyboardState, GamePadState gamePadState, AccelerometerState accelState, DisplayOrientation orientation)</code></h3></td>
     <td>
-      <p><strong>Função:</strong> Atualiza o estado de todos os objetos do nível, incluindo o jogador, inimigos, gemas e o tempo restante.</p>
+      <p><strong>Função:</strong> Atualiza o estado de todos os objetos do nível, incluindo o jogador, inimigos, pedras preciosas e o tempo restante.</p>
       <p><strong>Objetivo:</strong> Gerencia o fluxo do jogo, como o tempo, a interação do jogador e as condições de vitória (alcançar a saída) ou derrota (morrer ou esgotar o tempo).</p>
     </td>
   </tr>
   <tr>
     <td><h3>7. <code>void UpdateGems(GameTime gameTime)</code></h3></td>
     <td>
-      <p><strong>Função:</strong> Atualiza o estado das gemas e verifica se o jogador as coletou.</p>
-      <p><strong>Objetivo:</strong> Verifica se as gemas estão a ser coletadas pelo jogador e atualiza a pontuação.</p>
+      <p><strong>Função:</strong> Atualiza o estado das pedras preciosas e verifica se o jogador as coletou.</p>
+      <p><strong>Objetivo:</strong> Verifica se as pedras preciosas estão a ser coletadas pelo jogador e atualiza a pontuação.</p>
     </td>
   </tr>
   <tr>
@@ -197,8 +204,8 @@ public void OnCollected(Player collectedBy)
   <tr>
     <td><h3>9. <code>void OnGemCollected(Gem gem, Player collectedBy)</code></h3></td>
     <td>
-      <p><strong>Função:</strong> Executa ações quando o jogador coleta uma gema.</p>
-      <p><strong>Objetivo:</strong> Aumenta a pontuação do jogador e executa qualquer outra lógica relacionada à coleta de gemas.</p>
+      <p><strong>Função:</strong> Executa ações quando o jogador coleta uma pedra preciosa.</p>
+      <p><strong>Objetivo:</strong> Aumenta a pontuação do jogador e executa qualquer outra lógica relacionada à coleta de pedras preciosas.</p>
     </td>
   </tr>
   <tr>
@@ -225,7 +232,7 @@ public void OnCollected(Player collectedBy)
   <tr>
     <td><h3>13. <code>void Draw(GameTime gameTime, SpriteBatch spriteBatch)</code></h3></td>
     <td>
-      <p><strong>Função:</strong> Desenha todos os elementos do nível, incluindo o fundo, os tiles, gemas, inimigos e o jogador.</p>
+      <p><strong>Função:</strong> Desenha todos os elementos do nível, incluindo o fundo, os tiles, pedras preciosas, inimigos e o jogador.</p>
       <p><strong>Objetivo:</strong> Renderiza a tela do jogo, organizando as camadas de fundo, o nível de tiles, os inimigos e o jogador.</p>
     </td>
   </tr>
@@ -249,7 +256,7 @@ public void OnCollected(Player collectedBy)
 
 <h3>SpriteBatch</h3>
 <p>
-O <code>SpriteBatch</code> é utilizado para desenhar texturas na tela de forma eficiente. No projeto <strong>Platformer2D</strong>, ele é criado e usado em vários pontos:
+O <code>SpriteBatch</code> é utilizado para desenhar texturas na tela de forma eficiente. 
 </p>
 <ul>
   <li><strong>PlatformerGame.cs</strong>: criado no método <code>LoadContent</code> para desenhar o cenário, o jogador e a interface (HUD).</li>
@@ -263,7 +270,7 @@ O <code>ContentManager</code> é responsável por carregar os recursos do jogo, 
 </p>
 <ul>
   <li><strong>PlatformerGame.cs</strong>: inicializa o <code>ContentManager</code> e carrega conteúdos principais como a fonte usada na HUD.</li>
-  <li><strong>Level.cs</strong>: utilizado para carregar as texturas dos tiles, inimigos, gemas e sons, através do método <code>Content.Load&lt;T&gt;</code>.</li>
+  <li><strong>Level.cs</strong>: utilizado para carregar as texturas dos tiles, inimigos, pedras preciosas e sons, através do método <code>Content.Load&lt;T&gt;</code>.</li>
   <li><strong>Player.cs</strong> e <strong>Enemy.cs</strong>: carregam as suas próprias animações usando o <code>ContentManager</code> associado ao nível (<code>Level.Content</code>).</li>
 </ul>
 
